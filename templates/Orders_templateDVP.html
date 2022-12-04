@@ -1,0 +1,64 @@
+<!-- Edit this file to change the layout of the detail view print preview page -->
+
+
+<div class="panel-heading"><h3 class="panel-title">
+	<strong><%%DETAIL_VIEW_TITLE%%></strong>
+	<div class="hidden-print pull-right">
+		<div class="btn-group">
+			<button type="button" id="print" onclick="window.print();" title="<%%TRANSLATION(Print)%%>" class="btn btn-primary"><i class="glyphicon glyphicon-print"></i> <%%TRANSLATION(Print)%%></button>
+			<button type="submit" id="back" title="<%%TRANSLATION(Cancel Printing)%%>" class="btn btn-default"><i class="glyphicon glyphicon-remove-circle"></i> <%%TRANSLATION(Cancel Printing)%%></button>
+		</div>
+	</div>
+	<div class="clearfix"></div>
+</h3></div>
+
+<div class="panel-body">
+	<fieldset class="form-horizontal">
+		<!-- Field: OrderID -->
+		<div class="form-group Orders-OrderID" style="border-bottom: dotted 1px #DDD;">
+			<label class="col-xs-3 control-label">OrderID</label>
+			<div class="col-xs-9">
+				<div class="form-control-static"><%%VALUE(OrderID)%%></div>
+			</div>
+		</div>
+		<!-- Field: CustomerID -->
+		<div class="form-group Orders-Customer" style="border-bottom: dotted 1px #DDD;">
+			<label class="col-xs-3 control-label">CustomerID</label>
+			<div class="col-xs-9">
+				<div class="form-control-static"><span id="Customer<%%RND1%%>"><%%COMBOTEXT(Customer)%%></span></div>
+			</div>
+		</div>
+		<!-- Field: EmployeeID -->
+		<div class="form-group Orders-Employee" style="border-bottom: dotted 1px #DDD;">
+			<label class="col-xs-3 control-label">EmployeeID</label>
+			<div class="col-xs-9">
+				<div class="form-control-static"><span id="Employee<%%RND1%%>"><%%COMBOTEXT(Employee)%%></span></div>
+			</div>
+		</div>
+		<!-- Field: Product -->
+		<div class="form-group Orders-Product" style="border-bottom: dotted 1px #DDD;">
+			<label class="col-xs-3 control-label">Product</label>
+			<div class="col-xs-9">
+				<div class="form-control-static"><span id="Product<%%RND1%%>"><%%COMBOTEXT(Product)%%></span></div>
+			</div>
+		</div>
+		<!-- Field: OrderDate -->
+		<div class="form-group Orders-OrderDate" style="border-bottom: dotted 1px #DDD;">
+			<label class="col-xs-3 control-label">OrderDate</label>
+			<div class="col-xs-9">
+				<div class="form-control-static"><%%VALUE(OrderDate)%%></div>
+			</div>
+		</div>
+	</fieldset>
+</div>
+<script>
+	$j(function() {
+		// render read-only checkboxes in DVP
+		$j('form input[type=checkbox]:not(.hidden):checked')
+			.addClass('hidden')
+			.after('<i class="glyphicon glyphicon-check"></i>');
+		$j('form input[type=checkbox]:not(.hidden):not(:checked)')
+			.addClass('hidden')
+			.after('<i class="glyphicon glyphicon-unchecked"></i>')
+	})
+</script>

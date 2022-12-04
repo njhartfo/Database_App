@@ -1,0 +1,235 @@
+<!-- To change the layout of the detail view form, we recommend using JS code in hooks/Orders-dv.js rather than editing this file -->
+
+<div id="detail-view"></div>
+<div class="panel-heading"><h3 class="panel-title"><strong><%%DETAIL_VIEW_TITLE%%></strong></h3></div>
+
+<div id="Orders_dv_container-loading" class="text-center text-info text-bold vspacer-lg"><i class="glyphicon glyphicon-refresh loop-rotate"></i> <%%TRANSLATION(Loading ...)%%></div>
+
+<div class="panel-body hidden" id="Orders_dv_container">
+	<!-- child links -->
+	<div class="row vspacer-md">
+		<div class="col-xs-12 children-links">
+			<div class="clearfix"></div>
+		</div>
+	</div>
+
+	<div class="row">
+		<!-- form inputs -->
+		<div class="col-md-8 col-lg-10" id="Orders_dv_form">
+			<fieldset class="form-horizontal">
+
+				<!-- Field: OrderID -->
+				<div class="form-group Orders-OrderID">
+					<hr class="hidden-md hidden-lg">
+					<label class="control-label col-lg-3" for="OrderID">OrderID</label>
+					<div class="col-lg-9">
+						<div class="form-control-static" id="OrderID"><%%VALUE(OrderID)%%></div>
+					</div>
+				</div>
+
+				<!-- Field: CustomerID -->
+				<div class="form-group Orders-Customer">
+					<hr class="hidden-md hidden-lg">
+					<label class="control-label col-lg-3" for="Customer" data-parent_link="view_parent_modal">CustomerID</label>
+					<div class="col-lg-9">
+						<div class="lookup-flex"><%%COMBO(Customer)%%><%%PLINK(Customer)%%><%%ADDNEW(Customers)%%></div>
+					</div>
+				</div>
+
+				<!-- Field: EmployeeID -->
+				<div class="form-group Orders-Employee">
+					<hr class="hidden-md hidden-lg">
+					<label class="control-label col-lg-3" for="Employee" data-parent_link="view_parent_modal">EmployeeID</label>
+					<div class="col-lg-9">
+						<div class="lookup-flex"><%%COMBO(Employee)%%><%%PLINK(Employee)%%><%%ADDNEW(Employees)%%></div>
+					</div>
+				</div>
+
+				<!-- Field: Product -->
+				<div class="form-group Orders-Product">
+					<hr class="hidden-md hidden-lg">
+					<label class="control-label col-lg-3" for="Product" data-parent_link="view_parent_modal">Product</label>
+					<div class="col-lg-9">
+						<div class="lookup-flex"><%%COMBO(Product)%%><%%PLINK(Product)%%><%%ADDNEW(Products)%%></div>
+					</div>
+				</div>
+
+				<!-- Field: OrderDate -->
+				<div class="form-group Orders-OrderDate">
+					<hr class="hidden-md hidden-lg">
+					<label class="control-label col-lg-3" for="OrderDate">OrderDate</label>
+					<div class="col-lg-9">
+						<div class="input-group date datetimepicker"><input type="text" class="form-control" name="OrderDate" id="OrderDate" value="<%%VALUE(OrderDate)%%>"><span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span></div>
+					</div>
+				</div>
+
+			</fieldset>
+		</div>
+
+		<!-- DV action buttons -->
+		<hr class="hidden-md hidden-lg">
+		<div class="col-md-4 col-lg-2" id="Orders_dv_action_buttons">
+			<div class="btn-toolbar">
+				<div class="btn-group-vertical btn-group-lg" style="width: 100%;">
+					<%%UPDATE_BUTTON%%>
+				</div><p></p>
+				<div class="btn-group-vertical btn-group-lg" style="width: 100%;">
+					<%%DESELECT_BUTTON%%>
+					<%%DVPRINT_BUTTON%%>
+					<%%DELETE_BUTTON%%>
+				</div><p></p>
+				<div class="btn-group-vertical btn-group-lg" style="width: 100%;">
+					<%%INSERT_BUTTON%%>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+</div><!-- /div class="panel-body" -->
+	<script>
+		$j(function() {
+			var add_new_mode = (!$j('input[name=SelectedID]').val());
+			var embedded_mode = ($j('input[name=Embedded]').val() == 1);
+
+			/* auto-close embedded page? */
+			var autoclose_mode = ($j('input[name=AutoClose]').val() == 1);
+			var record_added_ok = (location.search.split('record-added-ok=').length == 2);
+			var record_updated_ok = (location.search.split('record-updated-ok=').length == 2);
+			if((record_added_ok || record_updated_ok) && embedded_mode && autoclose_mode) {
+				setTimeout(AppGini.closeParentModal, 2000);
+			}
+
+
+			/* enable DV action buttons to float on scrolling down the form */
+			enable_dvab_floating();
+
+			if(!$j('.table_view').length || $j('[name=SelectedID]').val().length) {
+				AppGini.once({
+					condition: function() {
+						return $j('.form-group.Orders-Customer')
+									.find('.nicEdit-main, .select2-container, input[type=radio]')
+									.length > 0
+								// or read-only DV
+								|| (!$j('#update').length && !$j('#insert').length);
+					},
+					action: function() {
+						$j('#Orders_dv_container-loading').addClass('hidden');
+						$j('#Orders_dv_container').removeClass('hidden');
+						AppGini.focusFormElement('Orders', 'Customer');
+					},
+					timeout:  5000,
+					doActionOnTimeout:  true
+				});
+			} else {
+				$j('#Orders_dv_container-loading').addClass('hidden');
+				$j('#Orders_dv_container').removeClass('hidden');
+			}
+
+			$j('form').eq(0).change(function() {
+				if($j(this).data('already_changed')) return;
+				if($j('#deselect').length) $j('#deselect').removeClass('btn-default').addClass('btn-warning').get(0).lastChild.data = " <%%TRANSLATION(Cancel)%%>";
+				$j(this).data('already_changed', true);
+			});
+
+			$j('a[href="<%%BASE_UPLOAD_PATH%%>"]').click(function() { return false; });
+
+
+			if(true /* !embedded_mode */) {
+				$j('.add_new_parent').click(function() {
+					var pt = $j(this).attr('id').replace(/_add_new$/, '');
+					modal_window({
+						url: pt + '_view.php?addNew_x=1&Embedded=1',
+						close: function() {
+							var field_id = $j('#' + pt + '_add_new').prevAll('input:hidden').eq(0).attr('id');
+							$j('#' + field_id + '-container').select2('focus').select2('focus');
+
+							/* if a new parent was added, select it */
+							var new_id = localStorage.getItem(pt + '_last_added_id');
+							if(new_id === null) return;
+
+							localStorage.removeItem(pt + '_last_added_id');
+							AppGini.lookupText({
+								id: new_id,
+								table: 'Orders',
+								field: field_id,
+								callback: function(data) {
+									$j('#' + field_id + '-container').select2('data', data, true);
+								}
+							});
+						},
+						size: 'full',
+						title: $j(this).attr('title')
+					});
+				});
+			}
+
+			AppGini.hideViewParentLinks();
+
+			$j('form').on('click', '.view_parent', function() {
+				var pt = $j(this).attr('id').replace(/_view_parent$/, '');
+				if($j(this).prevAll('input:hidden').length) {
+					var parent_id = $j(this).prevAll('input:hidden').eq(0).val();
+				} else {
+					var parent_id = $j(this).prevAll().children('input:hidden').eq(0).val();
+				}
+
+				/* handle radio lookups */
+				if($j(this).prevAll('[type=radio]').length) {
+					parent_id = $j(this).prevAll('[type=radio]').eq(0).val();
+				}
+
+				if(parent_id != '{empty_value}' && parent_id != undefined && parent_id != '') {
+					var parent_link = $j(this).parents('.form-group').children('label').data('parent_link');
+					switch(parent_link) {
+						case 'view_parent_hidden':
+							break;
+						case 'view_parent_modal':
+							modal_window({
+								url: pt + '_view.php?Embedded=1&SelectedID=' + encodeURIComponent(parent_id),
+								close: function() {
+									var field_id = $j('#' + pt + '_view_parent').prevAll('input:hidden').eq(0).attr('id');
+									$j('#' + field_id + '-container').select2('focus').select2('focus');
+
+									// in case the parent record was updated, we should update auto-fills
+									var updaterName = field_id + '_update_autofills';
+									if(typeof(window[updaterName]) == 'function')
+										window[updaterName]();
+								},
+								size: 'full',
+								title: $j(this).attr('title')
+							});
+							break;
+						case 'view_parent_same_window':
+							window.location = pt + '_view.php?Embedded=' + (embedded_mode ? '1' : '') + '&SelectedID=' + encodeURIComponent(parent_id);
+							break;
+						case 'view_parent_new_window':
+							window.open(pt + '_view.php?SelectedID=' + encodeURIComponent(parent_id));
+							break;
+					}
+
+				}
+			});
+
+
+			/* load admin tools for admin user */
+			if(!add_new_mode) {
+				$j('body').append('<div id="admin-tools-appendix"></div>');
+				$j('#admin-tools-appendix').load(
+					'ajax_admin_tools.php?table=Orders&id=<%%URLVALUE(OrderID)%%>',
+					function(resp) {
+						if(!resp.length) return;
+						$j.ajax('ajax_admin_tools.php?action=get_admin_tools_js&table=Orders&id=<%%URLVALUE(OrderID)%%>');
+					}
+				);
+			}
+
+			/* warn user if 'add new' clicked while unsaved changes exist */
+			$j('#addNew').click(function() {
+				if($j('#deselect.btn-warning').length) {
+					return confirm('<%%TRANSLATION(discard changes confirm)%%>');
+				}
+			});
+
+		});
+	</script>
