@@ -230,7 +230,6 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</button>
-				<!-- application title is obtained from the name besides the yellow database icon in AppGini, use underscores for spaces -->
 				<a class="navbar-brand" href="<?php echo PREPEND_PATH; ?>index.php"><i class="glyphicon glyphicon-home"></i> <?php echo APP_TITLE; ?></a>
 			</div>
 			<div class="collapse navbar-collapse">

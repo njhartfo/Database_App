@@ -8,11 +8,8 @@
 
 	$reset_expiry = 86400; // time validity of reset key in seconds
 
-#_______________________________________________________________________________
-# Step 4: Final step; change the password
-#_______________________________________________________________________________
 	if(Request::val('changePassword') && Request::val('key')) {
-		$expiry_limit = time() - $reset_expiry - 900; // give an extra tolerence of 15 minutes
+		$expiry_limit = time() - $reset_expiry - 900;
 		$res = sql("select * from membership_users where pass_reset_key='" . makeSafe(Request::val('key')) . "' and pass_reset_expiry>$expiry_limit limit 1", $eo);
 
 		if($row = db_fetch_assoc($res)) {

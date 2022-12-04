@@ -1,10 +1,4 @@
 <!-- 
-/*
- Pleas leave this notice.
- DHTML tip message version 1.2 copyright Essam Gamal 2003 (http://migoicons.tripod.com, migoicons@hotmail.com)
- All modifications are done in the style.js you should not modify this file.  Created on : 06/03/2003
- Script featured on and can be found at Dynamic Drive (http://www.dynamicdrive.com)
-*/ 
 
 var ua = navigator.userAgent
 var ps = navigator.productSub 

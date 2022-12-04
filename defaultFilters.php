@@ -12,13 +12,6 @@
 		foreach($plugins as $pl) {
 			if($pl['title'] == 'Search Page Maker') $spm_installed = true;
 		}
-
-		if(!$spm_installed) echo Notification::show([
-			'message' => '<i class="glyphicon glyphicon-info-sign"></i> Wish to offer your users an easier, more-tailored search experience? <a href="https://bigprof.com/appgini/applications/search-page-maker-plugin" target="_blank" class="alert-link"><i class="glyphicon glyphicon-hand-right"></i> Click here to learn how Search Page Maker plugin can help</a>.',
-			'dismiss_days' => 5,
-			'class' => 'success',
-			'id' => 'spm_notification',
-		]);
 	}
 ?>
 

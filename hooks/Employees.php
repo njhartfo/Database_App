@@ -1,6 +1,5 @@
 <?php
-	// For help on using hooks, please refer to https://bigprof.com/appgini/help/working-with-generated-web-database-application/hooks
-
+	
 	function Employees_init(&$options, $memberInfo, &$args) {
 
 		return TRUE;

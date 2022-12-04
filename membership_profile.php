@@ -94,13 +94,6 @@
 		exit;
 	}
 
-	/* get profile info */
-	/* 
-		$mi already contains the profile info, as documented at: 
-		https://bigprof.com/appgini/help/working-with-generated-web-database-application/hooks/memberInfo
-
-		custom field names are stored in $adminConfig['custom1'] to $adminConfig['custom4']
-	*/
 	$permissions = [];
 	$userTables = getTableList();
 	if(is_array($userTables))  foreach($userTables as $tn => $tc) {

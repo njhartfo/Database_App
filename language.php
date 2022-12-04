@@ -1,41 +1,5 @@
 <?php
 
-/*
-
-If you'd like to translate your AppGini app, this is
-the right file to change! However, please check this page
-first as you might found an already existing translation
-that you can update instead of starting from scratch:
-
-https://bigprof.com/appgini/download-language-files
-
-IMPORTANT:
-==========
-When translating, only translate the strings that are
-TO THE RIGHT OF the arrow sign (=>).
-
-Do NOT translate the strings between square brackets ([])
-Also, leave the text between < and > untranslated.
-And also, leave the special string %s as-is, untranslated.
-
-=====================================================
-PLEASE NOTE:
-============
-When a new version of AppGini is released, new strings
-might be added to the "defaultLang.php" file. To translate
-them, simply copy them to this file ("language.php") and 
-translate them here. Do NOT translate them directly in 
-the "defaultLang.php" file.
-=====================================================
-
-To avoid any error messages, please make sure to:
-
-1. Add a comma at the end of each line if it's not already there.
-2. Leave the last line in this file like this:
-];
-
-*/
-
 $Translation = [
 	'language' => 'english',
 	'membership management' => 'Membership Management',

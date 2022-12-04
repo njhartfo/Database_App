@@ -5,12 +5,8 @@
 			<?php } ?>
 
 			<?php if(!Request::val('Embedded')) { ?>
-				<!-- AppGini powered by notice -->
 				<div style="height: 60px;" class="hidden-print"></div>
 				<nav class="navbar navbar-default navbar-fixed-bottom" role="navigation">
-					<p class="navbar-text"><small>
-						This application was created using the free trial version of <a class="navbar-link" href="https://bigprof.com/appgini/?free_trial_footnote" target="_blank">AppGini 22.14</a>. <a class="btn btn-success btn-sm" href="https://bigprof.com/appgini/order?free_trial_footnote">Upgrade to AppGini Pro</a>
-					</small></p>
 				</nav>
 			<?php } ?>
 

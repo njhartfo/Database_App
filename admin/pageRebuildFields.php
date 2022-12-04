@@ -10,11 +10,6 @@
 		@include(__DIR__ . '/../updateDB.php');
 	}
 
-	/*
-		$schema: [ tablename => [ fieldname => [ appgini => '...', 'db' => '...'], ... ], ... ]
-	*/
-
-	/* application schema as created in AppGini */
 	$schema = get_table_fields();
 
 	$table_captions = getTableList();

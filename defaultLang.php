@@ -1,14 +1,5 @@
 <?php
 
-/*
-IMPORTANT:
-==========
-If you wish to translate the interface of your AppGini app,
-DO NOT TRANSLATE THIS FILE.
-
-Instead, you should translate the language.php file.
-*/
-
 $TranslationEn = [
 	'ImageFolder' => './images/',
 	'membership management' => 'Membership Management',
